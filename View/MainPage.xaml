@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:MauiApp3"
+             x:Class="MauiApp3.MainPage"
+             BackgroundImageSource="chit_holder.png">
+
+    <ContentPage.BindingContext>
+        <model:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout>
+            <Button Text="Go to Chit Page"
+                    Command="{Binding GoToChitPageCommand}" />
+            <Button Text="Go to Order Page"
+                    Command="{Binding GoToOrderPageCommand}" />
+            <Button Text="Go to SQL Query Page"
+                    Command="{Binding GoToSQLQueryPageCommand}" />
+            <CollectionView x:Name="OrdersView" 
+                            ItemsLayout="VerticalList"
+                            ItemsSource="{Binding Orders}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="LightGray" 
+                            Padding="10" 
+                            CornerRadius="5">
+                            <StackLayout>
+                                <Label Text="{Binding MainFoodItem}" 
+                                    FontSize="24" />
+                                <Label Text="{Binding ModifiersAsString}" 
+                                    FontSize="18" 
+                                    TextColor="Red" 
+                                    FontAttributes="Bold" />
+                                <Button Text="Bump"
+                                        BackgroundColor="Red"
+                                        Command="{Binding Path=BindingContext.BumpOrderCommand, Source={x:Reference OrdersView}}"
+                                        CommandParameter="{Binding}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
