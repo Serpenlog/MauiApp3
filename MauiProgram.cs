@@ -22,13 +22,13 @@ namespace MauiApp3
                 });
             builder.Services.AddSingleton<IOrderService, OrderService>();
 
-            var connectionSettings = GetConnectionSettings("MauiApp3.Connection.connection.xml"); // TODO: Replace with actual path
+            var connectionSettings = GetConnectionSettings("MauiApp3.Connection.connection.xml"); 
             var connectionString = connectionSettings.GetConnection();
 
             TestConnectionString(connectionString); // just for debugging
 
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlite(connectionString));
 
 #if DEBUG
             builder.Logging.AddDebug();
@@ -37,16 +37,20 @@ namespace MauiApp3
             return builder.Build();
         }
 
-        public static ConnectionSettings GetConnectionSettings(string filename) 
+        public static ConnectionSettings GetConnectionSettings(string resourceName)
         {
-            if (!File.Exists(filename)) throw new FileNotFoundException();
+            var assembly = Assembly.GetExecutingAssembly();
 
-            var serializer = new XmlSerializer(typeof(ConnectionSettings));
-            using (var stream = File.OpenRead(filename))
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
-                return (ConnectionSettings)serializer.Deserialize(stream); 
+                if (stream == null)
+                    throw new FileNotFoundException("Could not find embedded resource.", resourceName);
+
+                var serializer = new XmlSerializer(typeof(ConnectionSettings));
+                return (ConnectionSettings)serializer.Deserialize(stream);
             }
         }
+
 
         public static void TestConnectionString(string connectionString)
         {

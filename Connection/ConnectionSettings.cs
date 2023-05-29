@@ -19,7 +19,7 @@ namespace MauiApp3.Connection
 
         public string GetConnection(int timeout)
         {
-            var bldr = new SqlConnectionStringBuilder // line 22
+            var bldr = new SqlConnectionStringBuilder
             {
                 InitialCatalog = Connection.Database,
                 DataSource = Connection.Server,
@@ -42,6 +42,7 @@ namespace MauiApp3.Connection
 
             return bldr.ConnectionString;
         }
+
 
         public void Deserialize()
         {
