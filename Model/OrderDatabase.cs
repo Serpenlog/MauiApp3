@@ -23,6 +23,11 @@ namespace MauiApp3
         {
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags); 
         }
+        public Task<List<Modifier>> GetModifiersAsync()
+        {
+            return Database.Table<Modifier>().ToListAsync();
+        }
+
 
         public Task<List<Order>> GetOrdersAsync()
         {

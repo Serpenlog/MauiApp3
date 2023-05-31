@@ -28,8 +28,8 @@ namespace MauiApp3
             ToggleModifierCommand = new RelayCommand<string>(ToggleModifier);
             FinishOrderCommand = new RelayCommand(FinishOrder);
 
-            using var context = App.ServiceProvider.GetRequiredService<OrderDatabase>(); 
-            Modifiers = context.Modifiers.Select(m => m.Name).ToList(); 
+            var context = _orderDatabase;
+            Modifiers = context.GetOrderModifiersAsync().Result.Select(m => m.ID.ToString()).ToList();
         }
 
 
@@ -56,18 +56,10 @@ namespace MauiApp3
             }
         }
 
-        private async Task FinishOrder()
+        private void FinishOrder()
         {
             // Fill in the modifiers for the current order
-            foreach (string modifier in SelectedModifiers)
-            {
-                var orderModifier = new OrderModifier()
-                {
-                    OrderID = CurrentOrder.ID,
-                    ModifierID = Modifiers.Single(m => m.Name == modifier).Id
-                };
-                await _orderDatabase.InsertAsync(orderModifier);
-            };
+            CurrentOrder.Modifiers = SelectedModifiers;
 
             // Add the order to the MainPageViewModel's Orders collection
             ((App.Current.MainPage as Shell).CurrentPage.BindingContext as MainPageViewModel).Orders.Add(CurrentOrder);

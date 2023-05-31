@@ -29,10 +29,11 @@ namespace MauiApp3
             GoToSQLQueryPageCommand = new RelayCommand(GoToSQLQueryPage);
 
             Orders = new ObservableCollection<Order>
-                {
-                    new Order { MainFoodItems = new MainFoodItem { Name = "Burger", Modifiers = new List<string>{ "No onions", "Extra cheese" } } },
-                    new Order { MainFoodItems = new MainFoodItem { Name = "Pizza", Modifiers = new List<string>() } },
-                };
+            {
+                new Order { MainFoodItem = "Burger", Modifiers = new List<string>{ "Extra cheese", "No onions" }},
+                new Order { MainFoodItem = "Pizza", Modifiers = new List<string> { "Extra pepperoni", "No olives" }},
+                // Add more orders as required; will later make it so it gets the food items and modifiers from database but hard coding it for now
+            };
         }
 
         private async void GoToSQLQueryPage()

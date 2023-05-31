@@ -30,18 +30,19 @@ namespace MauiApp3
 
         private async Task<string> ExecuteQuery(string query)
         {
-            StringBuilder result = new StringBuilder(); 
-            using (var context = new OrderDatabase()) 
-            {
-                var modifiers = await context.Modifiers.FromSqlRaw(query).ToListAsync(); 
+            StringBuilder result = new StringBuilder();
 
-                foreach (var modifier in modifiers)
-                {
-                    result.AppendLine($"ID: {modifier.Id}, Name: {modifier.Name}");
-                }
+            var context = new OrderDatabase();
+
+            var modifiers = await context.GetOrderModifiersAsync();
+
+            foreach (var modifier in modifiers)
+            {
+                result.AppendLine($"ID: {modifier.ID}, Name: {modifier.ModifierID}");
             }
 
             return result.ToString();
         }
+
     }
 }
