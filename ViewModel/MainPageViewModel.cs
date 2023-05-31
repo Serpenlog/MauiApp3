@@ -28,7 +28,7 @@ namespace MauiApp3
 
             Orders = new ObservableCollection<Order>
             {
-                new Order { MainFoodItem = "Burger", Modifiers = new List<string>{ "Extra cheese", "No onions" }},
+                new Order { MainFoodItem = "Burger", Modifiers = new List<string>{ "Extra cheese", "No onions" }}, // error, 31
                 new Order { MainFoodItem = "Pizza", Modifiers = new List<string> { "Extra pepperoni", "No olives" }},
                 // Add more orders as required; will later make it so it gets the food items and modifiers from database but hard coding it for now
             };

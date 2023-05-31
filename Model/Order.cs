@@ -1,10 +1,13 @@
+using SQLite;
+using System.Collections.Generic;
+
 namespace MauiApp3
 {
     public class Order
     {
-        public string MainFoodItem { get; set; }
-        public List<string> Modifiers { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
 
-        public string ModifiersAsString => Modifiers != null ? string.Join(", ", Modifiers) : string.Empty;
+        public string MainFoodItem { get; set; }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.IO;
-using Microsoft.Data.SqlClient;
-using System.Xml.Serialization;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using MauiApp3.Connection;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
+using System.Threading.Tasks;
+using MauiApp3.Service;
 
 namespace MauiApp3
 {
@@ -18,65 +17,16 @@ namespace MauiApp3
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
             builder.Services.AddSingleton<IOrderService, OrderService>();
-
-            var connectionSettings = GetConnectionSettings("MauiApp3.Connection.connection.xml"); 
-            var connectionString = connectionSettings.GetConnection();
-
-            TestConnectionString(connectionString); // just for debugging
-
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(connectionString));
 
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            Task.WhenAll(OrderDatabase.Instance.Start()); // error, 27
 
             return builder.Build();
         }
-
-        public static ConnectionSettings GetConnectionSettings(string resourceName)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            {
-                if (stream == null)
-                    throw new FileNotFoundException("Could not find embedded resource.", resourceName);
-
-                var serializer = new XmlSerializer(typeof(ConnectionSettings));
-                return (ConnectionSettings)serializer.Deserialize(stream);
-            }
-        }
-
-
-        public static void TestConnectionString(string connectionString)
-        {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                System.Diagnostics.Debug.WriteLine("Connection string: " + connectionString);
-                try
-                {
-                    connection.Open();
-                    System.Diagnostics.Debug.WriteLine($"Connection string: {connectionString}");
-                    System.Diagnostics.Debug.WriteLine("Successfully connected to the database.");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Failed to connect to the database: " + ex.Message);
-                    throw;
-                }
-                finally
-                {
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        connection.Close();
-                    }
-                }
-            }
-        }
     }
-
 }

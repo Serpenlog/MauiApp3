@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiApp3
+namespace MauiApp3.Model
 {
-    public class Modifier
+    internal class MainFoodItem
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }
