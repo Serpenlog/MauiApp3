@@ -11,8 +11,6 @@
 
     <ScrollView>
         <StackLayout>
-            <Button Text="Go to Chit Page"
-                    Command="{Binding GoToChitPageCommand}" />
             <Button Text="Go to Order Page"
                     Command="{Binding GoToOrderPageCommand}" />
             <Button Text="Go to SQL Query Page"

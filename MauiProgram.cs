@@ -20,11 +20,21 @@ namespace MauiApp3
                 });
 
             builder.Services.AddSingleton<IOrderService, OrderService>();
+            builder.Services.AddSingleton<OrderPage>();
+            builder.Services.AddSingleton<OrderService>();
+            builder.Services.AddSingleton<OrderDatabase>();
+            builder.Services.AddSingleton<OrderModifier>();
+            builder.Services.AddSingleton<OrderPageViewModel>();
+            builder.Services.AddSingleton<Order>();
+            builder.Services.AddSingleton<MainPageViewModel>();
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<BaseViewModel>();
+            
+            
 
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            OrderDatabase.Instance.Start();
 
             return builder.Build();
         }

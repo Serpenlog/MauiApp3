@@ -5,7 +5,7 @@ namespace MauiApp3
 {
     public static class Constants
     {
-        public const string DatabaseFilename = "orders.db";
+        public const string DatabaseFilename = "Orders0.db";
 
         public const SQLite.SQLiteOpenFlags Flags =
             SQLite.SQLiteOpenFlags.ReadWrite |

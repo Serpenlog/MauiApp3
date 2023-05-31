@@ -54,19 +54,23 @@ namespace MauiApp3
             Orders.Remove(order);
         }
 
-        private async void GoToOrderPage()
+        private async Task GoToOrderPage()
         {
             // Navigate to OrderPage
-            // await Shell.Current.GoToAsync(nameof(OrderPage));
             try
             {
-                await Shell.Current.GoToAsync(nameof(OrderPage));
+                Debug.WriteLine($"{nameof(OrderPage)}");
+                await Shell.Current.GoToAsync($"{nameof(OrderPage)}");
             }
             catch (Exception ex)
             {
                 // log the exception
                 Debug.WriteLine(ex.ToString());
+                Debug.WriteLine("Stack trace: " + ex.StackTrace);
             }
         }
+
+
+
     }
 }

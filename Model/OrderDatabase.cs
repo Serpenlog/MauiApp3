@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.VisualBasic;
+using MauiApp3;
 
 namespace MauiApp3
 {
@@ -10,33 +10,40 @@ namespace MauiApp3
     {
         static SQLiteAsyncConnection Database;
 
-        public static readonly AsyncLazy<OrderDatabase> Instance =
-            new AsyncLazy<OrderDatabase>(async () => 
-            {
-                var instance = new OrderDatabase();
-                CreateTableResult result1 = await Database.CreateTableAsync<Order>();
-                CreateTableResult result2 = await Database.CreateTableAsync<OrderModifier>();
-                return instance;
-            });
+        public static OrderDatabase Instance { get; private set; }
 
         public OrderDatabase()
         {
-            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags); 
-        }
-        public Task<List<Modifier>> GetModifiersAsync()
-        {
-            return Database.Table<Modifier>().ToListAsync();
+            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
         }
 
-
-        public Task<List<Order>> GetOrdersAsync()
+        public static async Task InitAsync()
         {
-            return Database.Table<Order>().ToListAsync();
+            if (Instance != null)
+            {
+                Instance = new OrderDatabase();
+                await Database.CreateTableAsync<Order>();
+                await Database.CreateTableAsync<OrderModifier>();
+                await Database.CreateTableAsync<Modifier>();
+            }
         }
 
-        public Task<List<OrderModifier>> GetOrderModifiersAsync()
+        public async Task<List<Modifier>> GetModifiersAsync()
         {
-            return Database.Table<OrderModifier>().ToListAsync();
+            await InitAsync();
+            return await Database.Table<Modifier>().ToListAsync();
+        }
+
+        public async Task<List<Order>> GetOrdersAsync()
+        {
+            await InitAsync();
+            return await Database.Table<Order>().ToListAsync();
+        }
+
+        public async Task<List<OrderModifier>> GetOrderModifiersAsync()
+        {
+            await InitAsync();
+            return await Database.Table<OrderModifier>().ToListAsync();
         }
     }
 }
