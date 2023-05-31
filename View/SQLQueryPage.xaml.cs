@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using System.Threading.Tasks;
-using MauiApp3.Service;
+using MauiApp3;
 
 namespace MauiApp3
 {
@@ -30,10 +30,10 @@ namespace MauiApp3
 
         private async Task<string> ExecuteQuery(string query)
         {
-            StringBuilder result = new StringBuilder(); // error, 33
-            using (var context = new OrderDatabase()) // error, 34
+            StringBuilder result = new StringBuilder(); 
+            using (var context = new OrderDatabase()) 
             {
-                var modifiers = await context.Modifiers.FromSqlRaw(query).ToListAsync(); // error, 36
+                var modifiers = await context.Modifiers.FromSqlRaw(query).ToListAsync(); 
 
                 foreach (var modifier in modifiers)
                 {

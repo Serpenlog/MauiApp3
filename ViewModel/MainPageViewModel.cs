@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Controls;
 using System.Diagnostics;
+using System.Collections.Generic;
+using MauiApp3;
 
 namespace MauiApp3
 {
@@ -27,11 +29,10 @@ namespace MauiApp3
             GoToSQLQueryPageCommand = new RelayCommand(GoToSQLQueryPage);
 
             Orders = new ObservableCollection<Order>
-            {
-                new Order { MainFoodItem = "Burger", Modifiers = new List<string>{ "Extra cheese", "No onions" }}, // error, 31
-                new Order { MainFoodItem = "Pizza", Modifiers = new List<string> { "Extra pepperoni", "No olives" }},
-                // Add more orders as required; will later make it so it gets the food items and modifiers from database but hard coding it for now
-            };
+                {
+                    new Order { MainFoodItems = new MainFoodItem { Name = "Burger", Modifiers = new List<string>{ "No onions", "Extra cheese" } } },
+                    new Order { MainFoodItems = new MainFoodItem { Name = "Pizza", Modifiers = new List<string>() } },
+                };
         }
 
         private async void GoToSQLQueryPage()

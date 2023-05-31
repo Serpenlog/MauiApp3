@@ -4,8 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Maui.Controls;
 using System.Linq;
-using MauiApp3.Service;
-using MauiApp3.Model;
+using MauiApp3;
 
 namespace MauiApp3
 {
@@ -29,7 +28,7 @@ namespace MauiApp3
             ToggleModifierCommand = new RelayCommand<string>(ToggleModifier);
             FinishOrderCommand = new RelayCommand(FinishOrder);
 
-            using var context = App.ServiceProvider.GetRequiredService<OrderDatabase>(); // error, line 32
+            using var context = App.ServiceProvider.GetRequiredService<OrderDatabase>(); 
             Modifiers = context.Modifiers.Select(m => m.Name).ToList(); 
         }
 
@@ -40,7 +39,7 @@ namespace MauiApp3
             CurrentOrder = new Order
             {
                 MainFoodItem = mainFoodItem,
-                Modifiers = SelectedModifiers // This field will be populated later with selected modifiers, 43
+                Modifiers = SelectedModifiers // This field will be populated later with selected modifiers
             };
         }
 
@@ -57,7 +56,7 @@ namespace MauiApp3
             }
         }
 
-        private void FinishOrder()
+        private async Task FinishOrder()
         {
             // Fill in the modifiers for the current order
             foreach (string modifier in SelectedModifiers)
@@ -65,11 +64,9 @@ namespace MauiApp3
                 var orderModifier = new OrderModifier()
                 {
                     OrderID = CurrentOrder.ID,
-                    ModifierID = Modifiers.Single(m => m.Name == modifier).Id // error, 68
+                    ModifierID = Modifiers.Single(m => m.Name == modifier).Id
                 };
-
-                // Add the orderModifier to the database
-                _orderDatabase.InsertAsync(orderModifier); // error, 72
+                await _orderDatabase.InsertAsync(orderModifier);
             };
 
             // Add the order to the MainPageViewModel's Orders collection

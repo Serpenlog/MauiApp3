@@ -1,3 +1,4 @@
+using MauiApp3;
 using SQLite;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace MauiApp3
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-
-        public string MainFoodItem { get; set; }
+        public List<MainFoodItem> MainFoodItems { get; set; }
+        public List<Modifier> Modifiers { get; set; }
     }
 }

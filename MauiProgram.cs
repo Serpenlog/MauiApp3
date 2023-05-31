@@ -3,7 +3,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using System.Threading.Tasks;
-using MauiApp3.Service;
+using MauiApp3;
 
 namespace MauiApp3
 {
@@ -24,7 +24,7 @@ namespace MauiApp3
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            Task.WhenAll(OrderDatabase.Instance.Start()); // error, 27
+            OrderDatabase.Instance.Start();
 
             return builder.Build();
         }

@@ -1,4 +1,4 @@
-﻿using MauiApp3.Service;
+﻿using MauiApp3;
 using Microsoft.Maui.Controls;
 
 namespace MauiApp3
@@ -18,7 +18,7 @@ namespace MauiApp3
 
             _orderService = orderService;
             _orderDatabase = orderDatabase;
-            this.BindingContext = new OrderPageViewModel(_orderService, _orderDatabase); // line 20
+            this.BindingContext = new OrderPageViewModel(_orderService, _orderDatabase); 
         }
 
     }

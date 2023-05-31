@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic;
 
-namespace MauiApp3.Model
+namespace MauiApp3
 {
     public class OrderDatabase
     {
         static SQLiteAsyncConnection Database;
 
         public static readonly AsyncLazy<OrderDatabase> Instance =
-            new AsyncLazy<OrderDatabase>(async () => // error, 15
+            new AsyncLazy<OrderDatabase>(async () => 
             {
                 var instance = new OrderDatabase();
                 CreateTableResult result1 = await Database.CreateTableAsync<Order>();
@@ -21,7 +21,7 @@ namespace MauiApp3.Model
 
         public OrderDatabase()
         {
-            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags); // error, 25
+            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags); 
         }
 
         public Task<List<Order>> GetOrdersAsync()

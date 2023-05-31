@@ -1,5 +1,5 @@
 ﻿using SQLite;
-namespace MauiApp3.Model
+namespace MauiApp3
 {
     public class OrderModifier
     {
